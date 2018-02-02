@@ -257,7 +257,21 @@ export class Peercat {
 
     downloadBlob(infoHash) {
         const torrent = this.client.get(infoHash);
+        if (!torrent.bloburl){
+            torrent.files.forEach(function (file) {
+                file.getBlobURL(function (err, url) {
+                    torrent.bloburl = url;
 
+                    const anchorElement = document.createElement('a');
+                    document.body.appendChild(anchorElement);
+                    anchorElement.download = file.name;
+                    anchorElement.href = torrent.bloburl;
+                    anchorElement.click();
+                    anchorElement.parentNode.removeChild(anchorElement);
+                });
+            });
+            return;
+        }
         const anchorElement = document.createElement('a');
         document.body.appendChild(anchorElement);
         anchorElement.href = torrent.bloburl;

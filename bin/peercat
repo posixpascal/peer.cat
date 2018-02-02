@@ -1,0 +1,76 @@
+#!/usr/bin/env node
+
+const fs = require("fs");
+const WebTorrent = require("webtorrent-hybrid");
+const CryptoJS = require("crypto-js");
+const secureRandom = require("./secure-random");
+const colors = require("colors");
+const path = require("path");
+const humanSize = (bytes, si) => {
+    var thresh = si ? 1000 : 1024;
+    if (Math.abs(bytes) < thresh) {
+        return bytes + ' B';
+    }
+    var units = si
+        ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+        : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+    var u = -1;
+    do {
+        bytes /= thresh;
+        ++u;
+    } while (Math.abs(bytes) >= thresh && u < units.length - 1);
+    return bytes.toFixed(1) + ' ' + units[u];
+};
+
+const filename = process.argv[2];
+
+if (!filename) {
+    console.log("Syntax: " + process.argv[1] + " <filename>");
+    return;
+}
+
+if (!fs.existsSync(filename)) {
+    console.log(`Could not find ${filename}.`.red);
+    return;
+}
+
+const onTorrent = (torrent) => {
+    console.log(`Info Hash: ${torrent.infoHash}`.cyan);
+    // generate secure url:
+    const password = CryptoJS.SHA512(secureRandom.randomBuffer(256).toString()).toString();
+
+    const crypto = CryptoJS.AES.encrypt(JSON.stringify({
+        infoHash: torrent.infoHash,
+        filename: torrent.name
+    }), password);
+
+    const downloadUrl = "https://peer.cat/#" + crypto + ":" + password;
+    console.log(`File: ${torrent.name}`.cyan);
+    console.log(`Size: ${humanSize(torrent.length, true)}`.cyan);
+    console.log("");
+    console.log("Share this URL with your friends: ".gray);
+    console.log(downloadUrl);
+    console.log("");
+    console.log("Press CTRL+C to delete and quit.".gray);
+    console.log("");
+    torrent.on("upload", function(){
+
+    });
+
+    setInterval(function() {
+        process.stdout.clearLine();  // clear current text
+        process.stdout.cursorTo(0);  // move cursor to beginning of line
+        process.stdout.write(
+            "UP: ".gray + (humanSize(torrent.uploadSpeed, true) + "/s ").cyan +
+            ("\tPEERS: ".gray) + ((torrent.numPeers ? torrent.numPeers : 0) + " ").cyan +
+            "\tTRANSFER: ".gray + (humanSize(torrent.uploaded, true).cyan)
+        );  // write text
+    }, 300);
+};
+
+const client = new WebTorrent();
+console.log(`Offering file ${filename} through peer.cat...`.yellow);
+
+setTimeout(() => {
+    client.seed(path.resolve(filename), onTorrent);
+}, 1);
