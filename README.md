@@ -1,4 +1,5 @@
-# 🐱 peer.cat
+<img align="center" src="https://raw.githubusercontent.com/posixpascal/peer.cat/master/screen_1.png" alt="peer.cat">
+
 
 Secure and anonymous file sharing service. No server required.
 `peercat` uses WebTorrent to stream files from one computer to another without hitting a server.
@@ -17,10 +18,17 @@ parcel build src/index.html
 
 Then open the `dist/index.html` file in your browser.
 
-### TODOS
+### Command Line
+
+`peercat` now offers a command line utility which allows you to share your files through peer.cat without going to the website.
+
+[![asciicast](https://asciinema.org/a/ct09aD5BF8o3D8RH6Da5VUuzU.png)](https://asciinema.org/a/ct09aD5BF8o3D8RH6Da5VUuzU)
+
+This tool does not do downloads at the moment, I will add this later.
+
+### Todos
 
 - Cleanup Code
-- Add peercat command line utility
 - Better error messages
 
 This project was created within a day and I was suffering an illness so forgive me if the code is still a little bit messy.
