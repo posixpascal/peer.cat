@@ -145,3 +145,7 @@ code[data-link] {
     display: block;
     margin: 0 auto;
 }
+
+.footer {
+    background: linear-gradient(to top, #f1f1f1 60%, transparent);
+}

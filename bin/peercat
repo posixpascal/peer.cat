@@ -6,6 +6,8 @@ const CryptoJS = require("crypto-js");
 const secureRandom = require("./secure-random");
 const colors = require("colors");
 const path = require("path");
+const moment = require("moment");
+
 const humanSize = (bytes, si) => {
     var thresh = si ? 1000 : 1024;
     if (Math.abs(bytes) < thresh) {
@@ -22,6 +24,8 @@ const humanSize = (bytes, si) => {
     return bytes.toFixed(1) + ' ' + units[u];
 };
 
+let timeoutTimer;
+
 const filename = process.argv[2];
 
 if (!filename) {
@@ -29,10 +33,6 @@ if (!filename) {
     return;
 }
 
-if (!fs.existsSync(filename)) {
-    console.log(`Could not find ${filename}.`.red);
-    return;
-}
 
 const onTorrent = (torrent) => {
     console.log(`Info Hash: ${torrent.infoHash}`.cyan);
@@ -67,6 +67,75 @@ const onTorrent = (torrent) => {
         );  // write text
     }, 300);
 };
+
+let progressTimer;
+const onTorrentDownload = (torrent) => {
+    clearTimeout(timeoutTimer);
+    console.log(`Info Hash: ${torrent.infoHash}`.cyan);
+    console.log(`File: ${torrent.name}`.cyan);
+    console.log(`Size: ${humanSize(torrent.length, true)}`.cyan);
+    console.log("");
+    console.log("Press CTRL+C to delete and quit.".gray);
+    console.log("");
+
+    torrent.on("done", function(){
+        clearInterval(progressTimer);
+        console.log("");
+        console.log("File download complete".gray);
+        torrent.files.forEach(file => {
+            let savePath = torrent.infoHash + "-" + torrent.name;
+            
+            file.createReadStream().pipe(fs.createWriteStream(savePath, "utf-8"));
+    
+            console.log("Saved: ".gray + file.name.cyan.bold + " here: ".gray + savePath);;
+        });
+
+        process.exit(0);
+    });
+
+    progressTimer = setInterval(function() {
+        process.stdout.clearLine();  // clear current text
+        process.stdout.cursorTo(0);  // move cursor to beginning of line
+        process.stdout.write(
+            "DOWN: ".gray + (humanSize(torrent.downloadSpeed, true) + "/s ").cyan +
+            "\tPROGRESS: ".gray + ((torrent.progress * 100).toFixed(2)).cyan +
+            ("\tETA: ".gray) + (moment.duration(torrent.timeRemaining, "milliseconds").humanize().cyan) 
+        );  
+    }, 300);
+};
+
+
+if (!fs.existsSync(filename)) {
+    // User may want to download existing file, lets read hash
+    console.log("Trying to retrieve file from peer.cat".yellow)
+    console.log(filename.gray);
+    console.log("");
+    let infoHash;
+    if (filename.indexOf("peer.cat/") !== false){
+        const url = process.argv[2];
+        // user passed complete url
+        const secret = url.split("#")[1];
+        const [ infoHashEnc, password ] = secret.split(":");
+        const data = JSON.parse(CryptoJS.AES.decrypt(infoHashEnc, password).toString(CryptoJS.enc.Utf8));
+         infoHash = data.infoHash;
+        const filename = data.filename;
+    } else {
+         infoHash = filename;
+    }
+
+    console.log(("Fetching: " + infoHash + "").gray);
+
+    const client = new WebTorrent();
+    client.add(infoHash, onTorrentDownload);
+
+    timeoutTimer = setTimeout(() => {
+        console.log("This file might not be available anymore.".red);
+        process.exit(1);
+    }, 6000);
+
+    return;
+}
+
 
 const client = new WebTorrent();
 console.log(`Offering file ${filename} through peer.cat...`.yellow);
