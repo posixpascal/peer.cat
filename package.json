@@ -3,7 +3,7 @@
     "build": "parcel build src/index.html  --public-url ./",
     "watch": "parcel src/index.html",
     "pretest": "cross-env NODE_ENV=test parcel build test/test.html -d 'test/dist'  --public-url ./ --no-minify --no-cache",
-    "test": "cross-env NODE_ENV=test mocha-phantomjs -p /usr/local/bin/phantomjs --hooks test/phantom_hooks.js test/dist/test.html",
+    "test": "cross-env NODE_ENV=test mocha-phantomjs --hooks test/phantom_hooks.js test/dist/test.html",
     "posttest": "istanbul report --root coverage lcov"
   },
   "dependencies": {
