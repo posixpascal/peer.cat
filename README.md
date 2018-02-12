@@ -1,6 +1,12 @@
 <img align="center" src="https://raw.githubusercontent.com/posixpascal/peer.cat/master/screen_1.png" alt="peer.cat">
 
-![https://docs.peer.cat/badge.svg](https://docs.peer.cat/badge.svg)
+<center>
+
+[![Documentation](https://docs.peer.cat/badge.svg)](https://docs.peer.cat/)
+[![Maintainability](https://api.codeclimate.com/v1/badges/2e4c5b427f9620419d33/maintainability)](https://codeclimate.com/github/posixpascal/peer.cat/maintainability)
+
+</center>
+
 
 Secure and anonymous file sharing service. No server required.
 `peercat` uses WebTorrent to stream files from one computer to another without hitting a server.
