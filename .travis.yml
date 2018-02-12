@@ -7,11 +7,8 @@ node_js:
   - "stable"
 before_script:
   - npm install
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
+  - npm install -g codeclimate-test-reporter
 script:
   - npm run coverage
 after_script:
-  - npm install -g codeclimate-test-reporter
-  - ./cc-test-reporter after-build -t lcov --exit-code $TRAVIS_TEST_RESULT
+  - CODECLIMATE_REPO_TOKEN=787a2f89b15c637323c7340d65ec17e898ac44480706b4b4122ea040c2a88f1d codeclimate-test-reporter -S < coverage/lcov.info
