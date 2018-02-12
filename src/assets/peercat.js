@@ -69,8 +69,8 @@ export class Peercat {
         UI.hideUploadFeatures();
 
         // Receive info hash
-        let [infoHashEnc, password] = window.location.hash.substring(1).split(SHARE_URL_SEPARATOR);
-        const data = Peercat.decrypt(infoHashEnc, password);
+
+        const data = Peercat.decryptFromLocationHash();
 
         /**
          * Current downloading torrent identifier
@@ -250,6 +250,12 @@ export class Peercat {
      */
     static decrypt(data, password){
         return JSON.parse(CryptoJS.AES.decrypt(data, password).toString(CryptoJS.enc.Utf8));
+    }
+
+
+    static decryptFromLocationHash(){
+        let [infoHashEnc, password] = window.location.hash.substring(1).split(SHARE_URL_SEPARATOR);
+        return Peercat.decrypt(infoHashEnc, password);
     }
 
     /**
