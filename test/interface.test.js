@@ -18,7 +18,7 @@ mochaReady(() => {
             });
 
             it("should generate a random password", function () {
-                for (let i = 32; i < 0; i++) {
+                for (let i = 0; i < 32; i++) {
                     let password = Peercat.randomPassword();
                     password.length.should.be.above(30);
                 }
@@ -41,6 +41,6 @@ mochaReady(() => {
 
                humanFileSize(999).should.equal("999 B");
             });
-        })
+        });
     });
 });

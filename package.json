@@ -3,7 +3,7 @@
     "build": "parcel build src/index.html  --public-url ./",
     "watch": "parcel src/index.html",
     "pretest": "cross-env NODE_ENV=test parcel build test/test.html -d 'test/dist'  --public-url ./ --no-minify",
-    "test": "cross-env NODE_ENV=test node ./test-runner.js"
+    "test": "cross-env NODE_ENV=test bash ./test-runner.sh"
   },
   "dependencies": {
     "babel-preset-env": "^1.6.1",

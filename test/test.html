@@ -24,6 +24,7 @@
     var loaderInterval = setInterval(function(){
         console.log("waiting for mocha...");
         if (typeof describe === "function"){
+            console.log("found");
             clearInterval(loaderInterval);
             if (typeof initMochaPhantomJS !== "undefined") { window.initMochaPhantomJS(); }
             setupMocha();
