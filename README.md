@@ -33,6 +33,10 @@ This tool does not do downloads at the moment, I will add this later.
 
 This project was created within a day and I was suffering an illness so forgive me if the code is still a little bit messy.
 
+### Docs
+
+Docs are available here: [docs.peer.cat](https://docs.peer.cat)
+
 ### Contributing
 
 Just... do... it. 
