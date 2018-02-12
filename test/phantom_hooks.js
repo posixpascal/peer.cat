@@ -6,8 +6,9 @@ module.exports = {
         });
 
         if (coverage) {
-            console.log('Writing coverage to coverage/coverage.json');
+            console.log('Generating Coverage report');
             fs.write('coverage/coverage.json', JSON.stringify(coverage), 'w');
+            fs.write('coverage/codeclimate.json', JSON.stringify(coverage), 'w');
         } else {
             console.log('No coverage data generated');
         }
