@@ -1,7 +1,10 @@
+import * as CryptoJS from 'crypto-js';
+import * as secureRandom from "../vendor/secure-random";
+
 import {humanFileSize} from "./humanFileSize";
 import {TORRENT_TEMPLATE} from "./templates/torrent_seed";
 import {DOWNLOAD_TORRENT_TEMPLATE} from "./templates/torrent_down";
-import * as secureRandom from "../vendor/secure-random";
+
 import {FileUploader} from "./fileUploader";
 import {SHARE_URL_SEPARATOR, TRACKER} from "./config/config";
 import {UI} from "./ui";
