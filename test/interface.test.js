@@ -1,6 +1,7 @@
 import {Peercat} from "../src/assets/peercat";
 import {mochaReady} from "./helper";
 import {SHARE_URL_SEPARATOR} from "../src/assets/config/config";
+import {humanFileSize} from "../src/assets/humanFileSize";
 
 mochaReady(() => {
     describe("Peercat Interface", function () {
@@ -31,5 +32,15 @@ mochaReady(() => {
                window.location.hash = "";
             });
         });
+
+        describe("Helper Methods", function(){
+            it("should format format the torrents size to human readable format", function(){
+               const number = 1024;
+               humanFileSize(number).should.equal("1.0 KiB");
+               humanFileSize(number, true).should.equal("1.0 kB");
+
+               humanFileSize(999).should.equal("999 B");
+            });
+        })
     });
 });

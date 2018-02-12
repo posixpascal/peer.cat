@@ -2,9 +2,6 @@
   "scripts": {
     "build": "parcel build src/index.html  --public-url ./",
     "watch": "parcel src/index.html",
-    "precoverage": "cross-env NODE_ENV=test parcel build test/test.html -d 'test/dist'  --public-url ./ --no-minify --no-cache",
-    "coverage": "cross-env NODE_ENV=test node ./test-runner.js",
-    "postcoverage": "istanbul report --root coverage lcov",
     "pretest": "cross-env NODE_ENV=test parcel build test/test.html -d 'test/dist'  --public-url ./ --no-minify",
     "test": "cross-env NODE_ENV=test node ./test-runner.js"
   },
