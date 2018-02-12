@@ -4,7 +4,7 @@
 
 [![Documentation](https://docs.peer.cat/badge.svg)](https://docs.peer.cat/)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2e4c5b427f9620419d33/maintainability)](https://codeclimate.com/github/posixpascal/peer.cat/maintainability)
-
+[![Build Status](https://api.travis-ci.org/posixpascal/peer.cat.svg?branch=master)](https://travis-ci.org/posixpascal/peer.cat)
 </p>
 
 
