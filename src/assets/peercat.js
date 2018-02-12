@@ -1,21 +1,38 @@
 import {humanFileSize} from "./humanFileSize";
 import {TORRENT_TEMPLATE} from "./templates/torrent_seed";
 import {DOWNLOAD_TORRENT_TEMPLATE} from "./templates/torrent_down";
-import * as secureRandom from "./secure-random";
+import * as secureRandom from "../vendor/secure-random";
 import {FileUploader} from "./fileUploader";
 import {SHARE_URL_SEPARATOR, TRACKER} from "./config";
 import {UI} from "./ui";
 
+/**
+ * Version Tag
+ * @type {string}
+ */
 const VERSION = "1.0.0";
 
 /**
+ * Peercat Main Class
  *
+ * This class acts like a singleton most of the time. There is no need to initialize it more than once.
  */
 export class Peercat {
+    /**
+     * Initializing Peercat
+     */
     constructor() {
+        /**
+         * File Uploader Instance
+         * @type {FileUploader}
+         */
         this.fileUploader = new FileUploader();
+
+        /**
+         * WebTorrent Instance
+         * @type {WebTorrent}
+         */
         this.client = new WebTorrent();
-        this.torrents = [];
     }
 
     /**
@@ -37,8 +54,8 @@ export class Peercat {
 
 
         this.fileUploader.on("files:added", (files) => {
-            this.showSpinner();
-            this.client.seed(files, this.onTorrentSeed);
+            UI.showSpinner();
+            this.client.seed(files, (torrent) => { this.onTorrentSeed(torrent) });
         });
     }
 
@@ -51,7 +68,17 @@ export class Peercat {
         // Receive info hash
         let [infoHashEnc, password] = window.location.hash.substring(1).split(SHARE_URL_SEPARATOR);
         const data = Peercat.decrypt(infoHashEnc, password);
+
+        /**
+         * Current downloading torrent identifier
+         * @type {string}
+         */
         this.infoHash = data.infoHash;
+
+        /**
+         * Current downloading torrent filename
+         * @type {string}
+         */
         this.filename = data.filename;
 
         // prepare download
@@ -66,18 +93,22 @@ export class Peercat {
         UI.hideDownloadFeatures();
         const torrentUrl = this.buildMagnetUri();
 
+        /**
+         * Timeout for when a connection to a torrent server could not be made.
+         * @type {number}
+         */
         this.torrentTimeout = setTimeout(() => {
             this.client.remove(this.infoHash);
             UI.showFailedToDownloadMessage();
         }, 6000);
 
-        this.client.add(torrentUrl, this.onTorrentDownload);
+        this.client.add(torrentUrl, (torrent) => { this.onTorrentDownload(torrent) });
     }
 
 
     /**
      * Called when a torrent was uploaded through the file dialog
-     * @param torrent
+     * @param {Torrent} torrent The torrent that gets uploaded
      */
     onTorrentSeed(torrent) {
         UI.hideSpinner();
@@ -101,7 +132,7 @@ export class Peercat {
 
     /**
      * Called when a torrent was added to download queue via URL
-     * @param torrent
+     * @param {Torrent} torrent The torrent that gets downloaded
      */
     onTorrentDownload(torrent) {
         clearTimeout(this.torrentTimeout);
@@ -127,11 +158,10 @@ export class Peercat {
             this.update(true);
         });
 
-        this.torrents.push(torrent);
         this.update(true);
 
-        torrent.files.forEach(function (file) {
-            file.getBlobURL(function (err, url) {
+        torrent.files.forEach((file) => {
+            file.getBlobURL((err, url) => {
                 torrent.bloburl = url;
                 Peercat.requestDownload(file.name, torrent.bloburl);
             });
@@ -142,8 +172,8 @@ export class Peercat {
      * Try to download the file using a newly created anchor tag.
      * This may or may not work depending on how long the user waits for his actions.
      * I usually just call this and if the browser blocks it I'm okay with it
-     * @param fileName
-     * @param blobUrl
+     * @param {string} fileName
+     * @param {string} blobUrl
      */
     static requestDownload(fileName, blobUrl) {
         const anchorElement = document.createElement('a');
@@ -190,13 +220,13 @@ export class Peercat {
 
     /**
      * Request to download the blob of a given torrent and try to download it using @see requestDownload
-     * @param infoHash
+     * @param {string} infoHash
      */
     downloadBlob(infoHash) {
         const torrent = this.client.get(infoHash);
         if (!torrent.bloburl) {
-            torrent.files.forEach(function (file) {
-                file.getBlobURL(function (err, url) {
+            torrent.files.forEach((file) => {
+                file.getBlobURL((err, url) => {
                     torrent.bloburl = url;
                     Peercat.requestDownload(file.name, torrent.bloburl);
                 });
@@ -211,6 +241,7 @@ export class Peercat {
      * Decrypt a given string using a given password
      * @param {string} data The AES sequence to decrypt
      * @param {string} password The password to decrypt
+     * @returns {string} The decrypted string
      */
     static decrypt(data, password){
         return JSON.parse(CryptoJS.AES.decrypt(data, password).toString(CryptoJS.enc.Utf8));
@@ -220,6 +251,7 @@ export class Peercat {
      * Encrypt a given string using a given password
      * @param {JSON} data JSON payload to encrypt
      * @param {string} password The password used to encrypt
+     * @returns {string} The encrypted string
      */
     static encrypt(data, password) {
         return CryptoJS.AES.encrypt(JSON.stringify(data), password);
@@ -227,6 +259,7 @@ export class Peercat {
 
     /**
      * Generate a random 256 bytes long password using a buffer
+     * @returns {string} A sha512 string built by using a randombuffer of 256
      */
     static randomPassword() {
         return CryptoJS.SHA512(secureRandom.randomBuffer(256).toString()).toString();

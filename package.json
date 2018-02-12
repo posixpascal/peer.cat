@@ -4,6 +4,8 @@
     "colors": "^1.1.2",
     "crypto-js": "^3.1.9-1",
     "cryptojs": "^2.5.3",
+    "esdoc": "^1.0.4",
+    "esdoc-standard-plugin": "^1.0.0",
     "moment": "^2.20.1",
     "webtorrent": "^0.98.21",
     "webtorrent-hybrid": "^1.0.6"

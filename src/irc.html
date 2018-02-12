@@ -1,0 +1,76 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>irc.peer.cat | Secure file sharing over webtorrent</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/css/uikit.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/js/uikit-icons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webtorrent/0.98.10/webtorrent.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+    <script src="vendor/secure-random.js"></script>
+    <script src="./assets/main.js"></script>
+    <link rel="stylesheet" href="assets/peercat-irc.css">
+    <meta property="og:title" content="peer.cat - Peer 2 Peer File Sharing">
+    <meta property="og:description" content="Secure and anonymous file sharing service">
+    <meta property="og:image" content="https://peer.cat/cat.png">
+    <meta property="og:url" content="https://peer.cat">
+    <link rel="icon" href="https://peer.cat/cat.png">
+</head>
+<body>
+    <nav class="uk-navbar-container" uk-navbar>
+        <div class="uk-navbar-left">
+            <ul class="uk-navbar-nav">
+                <li class="uk-active">
+                    <h1>
+                        <img width="64px" src="assets/cat.png">
+                        <span class="uk-text-muted">IRC</span>
+                        peer.cat
+
+                    </h1>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="chat-view">
+        <div class="content-area">
+            content
+        </div>
+        <div class="sidebar">
+            <div class="user">
+                <span class="status status-operator">@</span>
+                <span class="username">
+                    p0s1x
+                </span>
+                <span class="uk-position-right ping">
+                    74
+                    <span class="ping-ms">ms</span>
+                </span>
+            </div>
+            <div class="user">
+                <span class="status status-operator">%</span>
+                <span class="username">
+                    peerbot
+                </span>
+                <span class="uk-position-right ping">
+                     174
+                    <span class="ping-ms">ms</span>
+                </span>
+            </div>
+        </div>
+    </div>
+<div class="uk-position-bottom footer uk-text-center uk-padding-small">
+    <small>
+        peer.cat is &copy; 2018 by
+        <a href="https://pascalraszyk.de">Pascal Raszyk</a>
+        <span class="uk-text-muted">/</span>
+        WebTorrent.js &copy; WebTorrent LLC
+        <span class="uk-text-muted">/</span>
+        Source available on
+        <a href="//github.com/posixpascal/peer.cat">GitHub</a>
+    </small>
+</div>
+</body>
+</html>

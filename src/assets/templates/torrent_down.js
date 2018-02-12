@@ -1,5 +1,10 @@
 import {template} from "./template";
 
+/**
+ * Download Torrent Template
+ * This renders a HTML view for a given torrent
+ * @param {Torrent} torrent The torrent you want to generate a template for
+ */
 export const DOWNLOAD_TORRENT_TEMPLATE = torrent => template`
     <div data-id="${'infoHash'}" class="uk-card uk-card-default uk-card-body uk-width-1-1">
         <h3 class="uk-card-title uk-text-center" data-filename>${'name'}</h3>

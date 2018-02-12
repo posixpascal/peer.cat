@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css?family=Lalezar');
+
+body, html {
+    background: #f1f1f1;
+    padding: 0;
+    margin: 0;
+}
+
+code {
+    padding: 5px;
+    border-radius: 5px;
+    color: #1e87f0 !important;
+    font-size: 16px !important;
+}
+
+h1, h2 {
+    margin: 0;
+    padding: 0;
+}
+
+.intro {
+    padding: 0 25px;
+    min-height: 350px;
+    margin: 25px auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+h1 {
+    font-size: 32px;
+    font-family: 'Lalezar', 'Helvetica Neue', Helvetica, sans-serif !important;
+}
+
+.uk-text-muted {
+    font-weight:200;
+    font-family: 'Helvetica Neue';
+    font-size: 20px;
+    position: relative;
+}
+
+.uk-navbar {
+    padding: 20px;
+}
+.uk-navbar img {
+    width: 42px;
+}
+
+.intro h2 {
+    margin-top: -10px;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-family: 'Lalezar', 'Helvetica Neue', Helvetica, sans-serif !important;
+}
+
+.intro p {
+    font-size: 16px;
+    padding: 0 40px;
+}
+#uploader {
+    background:#fff;
+    transition: box-shadow ease-in-out 0.3s;
+    font-size: 24px;
+    border:none;
+    margin-top: 60px;
+}
+.uk-dragover {
+    box-shadow: 0px 10px 30px rgba(0,0,0,.1) !important;
+    border: 1px solid transparent;
+}
+
+.torrents code {
+    background: transparent;
+}
+.torrents .uk-icon {
+    position:relative;
+    top: -2px;
+}
+
+.torrents .metadata .uk-icon svg * {
+    stroke: #1e87f0 !important;
+}
+
+.torrents .uk-card-title {
+    font-family: Lalezar;
+}
+
+.torrents .actions .uk-button {
+    float: left;
+    margin: 20px 10px;
+    width: calc(50% - 20px);
+}
+
+code[data-link] {
+    word-break: break-all;
+    white-space: normal;
+    display: block;
+    margin: 20px 0;
+    margin-top: 60px;
+    padding: 20px;
+}
+#share-modal h2, .download-cta h2 {
+    font-family: Lalezar;
+}
+
+#share-modal .uk-text-danger {
+    margin-top: -5px;
+}
+
+#share-modal .uk-text-muted {
+    margin:0;
+    font-size: 12px;
+    cursor:pointer;
+    display:block;
+    padding-left: 5px;
+    text-transform: uppercase;
+}
+
+.downloads .uk-button {
+    margin-top: 6px;
+}
+
+.spinner {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    display: none;
+}
+.spinner svg {
+    width: 48px;
+    height: 48px;
+    margin-top: 40px;
+}
+
+.uk-text-danger svg * {
+    stroke: red !important;
+}
+
+.uk-disabled {
+    background: #ddd !important
+}
+
+.uk-iconnav {
+    justify-content: center;
+}
+
+.uk-iconnav span {
+    cursor:pointer;
+}
+
+@media (max-width: 640px){
+    .uk-iconnav {
+        justify-content: center !important;
+    }
+}
+
+.uk-modal-close {
+    display: block;
+    margin: 0 auto;
+}
+
+.footer {
+    background: linear-gradient(to top, #f1f1f1 60%, transparent);
+}
+
+.chat-view {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.chat-view .content-area {
+    width: auto;
+    display:flex;
+}
+
+.chat-view .sidebar {
+    display:flex;
+    width: 250px;
+    border-left: 1px solid #dfdfdf;
+    height: 100%;
+    flex-direction: column;
+
+}
+
+.chat-view .sidebar .user {
+    display: flex;
+    padding: 3px;
+    position:relative;
+    border-bottom: 1px solid #dfdfdf;
+    align-items:center;
+}
+
+.chat-view .sidebar .username {
+    font-family: monospace;
+}
+
+.chat-view .sidebar .user .status {
+    font-family: Lalezar;
+    padding-right: 5px;
+    font-size:22px;
+    position:relative;
+    top:3px;
+}
+
+.chat-view .sidebar .user .status-operator {
+    color: deepskyblue;
+}
+
+.chat-view .sidebar .user .ping {
+    display: inline-flex;
+    position:relative;
+    top:  8px;
+    padding-right: 20px;
+    color: #aaa;
+}
+
+.chat-view .sidebar .user .ping-ms {
+    color: limegreen;
+    font-size: 8px;
+    position:relative;
+    top:2px;
+    left: 2px;
+}

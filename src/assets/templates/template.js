@@ -1,3 +1,9 @@
+/**
+ * Wrap a string literal
+ * @param strings
+ * @param keys
+ * @returns {Function}
+ */
 export const template = (strings, ...keys) => {
     return ((...values) => {
         const dict = values[values.length - 1] || {};

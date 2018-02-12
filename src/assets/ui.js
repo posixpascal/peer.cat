@@ -1,31 +1,56 @@
-export const UI = {
-    showSpinner: () => {
+/**
+ * A general UI class which calls jQuery DOM operations
+ * @type {object}
+ */
+export class UI {
+    /**
+     * Show loading spinner
+     */
+    static showSpinner() {
         $(".spinner").show();
-    },
+    }
 
-    hideSpinner: () => {
+    /**
+     * Hide loading spinner
+     */
+    static hideSpinner() {
         $(".spinner").hide();
-    },
+    }
 
-    hideUploadFeatures: () => {
+    /**
+     * Switch Peercats view; Hide upload features
+     */
+    static hideUploadFeatures() {
         $("#uploader").hide();
         $(".intro p").hide();
-    },
+    }
 
-    hideDownloadFeatures(){
-        $(".download-cta").hide();
-    },
+    /**
+     * Hide all download related elements
+     */
+    static hideDownloadFeatures(){
+        $("download-cta").hide();
+    }
 
-    showUploadFeatures: () => {
+    /**
+     * Show upload related elements
+     */
+    static showUploadFeatures() {
         $(".intro p").hide();
         $("#uploader").fadeIn();
-    },
+    }
 
-    showDownloadFeatures: () => {
+    /**
+     * Hide download related elements
+     */
+    static showDownloadFeatures() {
         $(".download-cta").show();
-    },
+    }
 
-    showFailedToDownloadMessage: () => {
+    /**
+     * Show a message that the file is not available
+     */
+    static showFailedToDownloadMessage() {
         UI.hideSpinner();
         $(".download-cta").show();
         UIkit.notification({
@@ -34,18 +59,30 @@ export const UI = {
             pos: 'top-center',
             timeout: 5000
         });
-    },
+    }
 
-    removeTorrent: (infoHash) => {
+    /**
+     * Remove a given torrent from the view
+     * @param {string} infoHash
+     */
+    static removeTorrent(infoHash){
         $(`[data-id='${infoHash}']`).remove();
-    },
+    }
 
-    showShareModal: (torrent) => {
+    /**
+     * Show the share modal view for the given torrent,.
+     * @param {Torrent} torrent
+     */
+    static showShareModal(torrent){
         $("#share-modal").find("[data-link]").html(torrent.shareUrl);
         UIkit.modal("#share-modal").show();
-    },
+    }
 
-    enableDownloadButton: (torrent) => {
+    /**
+     * Enable the download button for the given torrent.
+     * @param {Torrent} torrent
+     */
+    static enableDownloadButton(torrent){
         $(`[data-id='${torrent.infoHash}'] .download-btn`).removeClass("uk-disabled");
     }
 };

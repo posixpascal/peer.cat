@@ -1,3 +1,9 @@
+/**
+ * Transform any amount of bytes to a human readable format
+ * @param {number} bytes The amount of bytes
+ * @param {boolean} si Use 1000 as base.
+ * @returns {string} The human readable string
+ */
 export const humanFileSize = (bytes, si) => {
     const thresh = si ? 1000 : 1024;
     if (Math.abs(bytes) < thresh) {
