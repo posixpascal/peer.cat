@@ -15,9 +15,20 @@
 <script>mocha.setup('bdd')</script>
 <script src="interface.test.js"></script>
 <script>
-    mocha.checkLeaks();
-    mocha.globals(['jQuery']);
-    mocha.run();
+    var setupMocha = function() {
+        mocha.checkLeaks();
+        mocha.globals(['jQuery']);
+        mocha.run();
+    };
+
+    var loaderInterval = setInterval(function(){
+        console.log("waiting for mocha...");
+        if (typeof describe === "function"){
+            clearInterval(loaderInterval);
+            if (typeof initMochaPhantomJS !== "undefined") { window.initMochaPhantomJS(); }
+            setupMocha();
+        }
+    }, 100);
 </script>
 </body>
 </html>

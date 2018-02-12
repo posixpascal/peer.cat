@@ -4,4 +4,6 @@ dist/
 node_modules
 .DS_Store
 docs/
-test.dist/
+test/dist/
+coverage/
+.nyc_output

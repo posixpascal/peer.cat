@@ -1,3 +1,10 @@
 {
-  "presets": ["env"]
+  "presets": [
+    "es3",
+    "es2015-mod",
+    "env"
+  ],
+  "plugins": [
+    "istanbul"
+  ]
 }
