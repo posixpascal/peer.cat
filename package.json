@@ -8,6 +8,7 @@
     "esdoc-standard-plugin": "^1.0.0",
     "moment": "^2.20.1",
     "webtorrent": "^0.98.21",
-    "webtorrent-hybrid": "^1.0.6"
+    "webtorrent-hybrid": "^1.0.6",
+    "marked": "0.3.9"
   }
 }
