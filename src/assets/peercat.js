@@ -160,12 +160,19 @@ export class Peercat {
 
         this.update(true);
 
-        torrent.files.forEach((file) => {
-            file.getBlobURL((err, url) => {
-                torrent.bloburl = url;
-                Peercat.requestDownload(file.name, torrent.bloburl);
-            });
-        })
+        torrent.files.forEach((file) => this.downloadFile(torrent, file));
+    }
+
+    /**
+     * Parse a torrents bloburl and try to download it.
+     * @param {Torrent} torrent
+     * @param {TorrentFile} file
+     */
+    downloadFile(torrent, file) {
+        file.getBlobURL((err, url) => {
+            torrent.bloburl = url;
+            Peercat.requestDownload(file.name, torrent.bloburl);
+        });
     }
 
     /**
@@ -225,12 +232,7 @@ export class Peercat {
     downloadBlob(infoHash) {
         const torrent = this.client.get(infoHash);
         if (!torrent.bloburl) {
-            torrent.files.forEach((file) => {
-                file.getBlobURL((err, url) => {
-                    torrent.bloburl = url;
-                    Peercat.requestDownload(file.name, torrent.bloburl);
-                });
-            });
+            torrent.files.forEach((file) => this.downloadFile(torrent, file));
             return;
         }
 

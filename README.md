@@ -1,5 +1,6 @@
 <img align="center" src="https://raw.githubusercontent.com/posixpascal/peer.cat/master/screen_1.png" alt="peer.cat">
 
+![https://docs.peer.cat/badge.svg](https://docs.peer.cat/badge.svg)
 
 Secure and anonymous file sharing service. No server required.
 `peercat` uses WebTorrent to stream files from one computer to another without hitting a server.
@@ -36,6 +37,11 @@ This project was created within a day and I was suffering an illness so forgive 
 ### Docs
 
 Docs are available here: [docs.peer.cat](https://docs.peer.cat)
+
+
+### Tracker
+
+peer.cat uses it's own tracker for file exchange, check out the `tracker` folder in this repository.
 
 ### Contributing
 
