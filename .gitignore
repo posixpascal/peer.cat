@@ -1,7 +1,11 @@
-.cache/
-.idea/
+node_modules/
 dist/
-node_modules
+.cache/
+.parcel-cache/
+.idea/
+*.tsbuildinfo
+.env
+.env.local
 .DS_Store
 docs/
 test/dist/

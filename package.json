@@ -1,31 +1,47 @@
 {
+  "name": "peer.cat",
+  "version": "2.0.0",
+  "description": "Anonymous, encrypted peer-to-peer file sharing via WebRTC and WebTorrent",
+  "type": "module",
   "scripts": {
-    "build": "parcel build src/index.html  --public-url ./",
-    "watch": "parcel src/index.html",
-    "pretest": "cross-env NODE_ENV=test parcel build test/test.html -d 'test/dist'  --public-url ./ --no-minify",
-    "test": "cross-env NODE_ENV=test mocha-phantomjs -p /usr/local/bin/phantomjs --hooks test/phantom_hooks.js  test/dist/test.html"
+    "dev": "concurrently \"vite\" \"tsx src/server/index.ts\"",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "server": "tsx src/server/index.ts",
+    "tracker": "tsx src/server/tracker.ts",
+    "start": "concurrently \"npm run server\" \"vite preview --host 0.0.0.0\"",
+    "typecheck": "tsc --noEmit",
+    "peercat": "tsx bin/peercat.ts"
   },
+  "bin": {
+    "peercat": "./bin/peercat.ts"
+  },
+  "keywords": [
+    "p2p",
+    "file-sharing",
+    "webrtc",
+    "webtorrent",
+    "encrypted",
+    "anonymous",
+    "e2ee"
+  ],
+  "author": "Pascal Raszyk",
+  "license": "MIT",
   "dependencies": {
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-es2015-mod": "^6.6.0",
-    "babel-preset-es3": "^1.0.1",
-    "bittorrent-tracker": "^9.3.0",
-    "colors": "^1.1.2",
-    "cross-env": "^5.1.3",
-    "crypto-js": "^3.1.9-1",
-    "istanbul": "^0.4.5",
-    "moment": "^2.20.1",
-    "webtorrent": "^0.98.21",
-    "webtorrent-hybrid": "^1.0.6"
+    "bittorrent-tracker": "^11.1.0",
+    "concurrently": "^9.1.0",
+    "tweetnacl": "^1.0.3",
+    "tweetnacl-util": "^0.15.1",
+    "webtorrent": "^2.5.1",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
-    "babel-plugin-istanbul": "^4.1.5",
-    "esdoc": "^1.0.4",
-    "esdoc-standard-plugin": "^1.0.0",
-    "marked": "0.3.9",
-    "mocha": "^5.0.0",
-    "mocha-phantomjs": "^4.1.0",
-    "nyc": "^11.4.1",
-    "parcel-bundler": "^1.5.1"
+    "@types/node": "^22.10.0",
+    "@types/ws": "^8.5.13",
+    "events": "^3.3.0",
+    "path-browserify": "^1.0.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vite": "^6.0.0"
   }
 }

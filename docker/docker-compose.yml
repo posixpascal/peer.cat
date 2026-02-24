@@ -1,0 +1,59 @@
+# ========================================
+# peer.cat — Docker Compose Stack
+# ========================================
+# Self-hostable file sharing infrastructure
+#
+# Services:
+#   app      — Web UI + Signaling server
+#   tracker  — BitTorrent tracker (for WebTorrent mode)
+#   coturn   — STUN/TURN server (for NAT traversal)
+#
+# Usage:
+#   docker compose up -d
+#
+# Ports:
+#   3000   — Web UI
+#   8080   — Signaling WebSocket
+#   41337  — BitTorrent tracker
+#   3478   — STUN/TURN
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "3000:3000"
+      - "8080:8080"
+    environment:
+      - SIGNAL_PORT=8080
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  tracker:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: ["npx", "tsx", "src/server/tracker.ts"]
+    ports:
+      - "41337:41337"
+      - "41337:41337/udp"
+    environment:
+      - TRACKER_PORT=41337
+    restart: unless-stopped
+
+  coturn:
+    image: coturn/coturn:latest
+    ports:
+      - "3478:3478"
+      - "3478:3478/udp"
+      - "49152-49200:49152-49200/udp"
+    volumes:
+      - ./coturn/turnserver.conf:/etc/turnserver.conf:ro
+    restart: unless-stopped
+    command: ["-c", "/etc/turnserver.conf"]
